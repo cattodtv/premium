@@ -24,33 +24,35 @@
   </style>
 </head>
 <body class="text-center">
- <div>
-  <form class="form-signin" onsubmit="return validateForm()" id="captcha">
-    <img class="mb-4" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Are you human?</h1>
+<form class="form-signin" onsubmit="return validateForm()" id="captcha">
+  <img class="mb-4" src="https://getbootstrap.com/docs/4.5/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+  <h1 class="h3 mb-3 font-weight-normal">Are you human?</h1>
 
-    <input type="text" 
-       class="form-control" 
-       style="margin-bottom: 0px; width: 200px; height: 40px; font-size: 24px; font-weight: bolder; text-decoration: line-through; display: inline-block; background-color: rgb(178, 0, 255);" 
-       id="mainCaptcha"
-       disabled="">
-    <button class="btn btn-success" type="button" style="display: inline-block;" id="refresh" onclick="Captcha();">Reset</button>
+  <input type="text" 
+     class="form-control" 
+     style="margin-bottom: 0px; width: 200px; height: 40px; font-size: 24px; font-weight: bolder; text-decoration: line-through; display: inline-block; background-color: rgb(178, 0, 255);" 
+     id="mainCaptcha"
+     disabled="">
+  <button class="btn btn-success" type="button" style="display: inline-block;" id="refresh" onclick="Captcha();">Reset</button>
 
-    <label for="inputCaptcha" class="sr-only">Email address</label>
+  <label for="inputCaptcha" class="sr-only">Email address</label>
 
-    <input type="text" id="txtInput" name="captcha" class="form-control" placeholder="Captcha" required autofocus>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">I am not a robot!</button>
+  <input type="text" id="txtInput" name="captcha" class="form-control" placeholder="Captcha" required autofocus>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Continue</button>
 
-    <div class="alert alert-warning" role="alert">
-      <span id="log"></span>
-    </div>
+  <div class="alert alert-warning d-none" role="alert" id="logContainer">
+    <span id="log"></span>
+  </div>
 
-    <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
-  </form>
-</div>  
+  <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+</form>
+
   
 <script type="text/javascript">
+const redirectUri = 'https://delfi.lv';
+  
 function validateForm(){
+    $('#logContainer').addClass('d-none');
     document.getElementById('log').innerHTML = '';
 
     var string1 = removeSpaces(document.getElementById('mainCaptcha').value);
@@ -58,9 +60,10 @@ function validateForm(){
 
     if (string1 != string2 || string2 == "") {
       Captcha();
+      $('#logContainer').removeClass('d-none');
       document.getElementById('log').innerHTML += '<span style="font-size:16px; padding: 25px;">Entered Invalid Captcha</span> ';
     } else {
-      window.location = 'https://delfi.lv';
+      window.location = redirectUri;
     }
   
     return false;
